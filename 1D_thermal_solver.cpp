@@ -1,0 +1,55 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+
+class th_solv_1D {
+private: 
+    std::vector<double> T;
+    int N_points;
+    double T_start, T_end;
+    double tolerance;
+
+public:
+    th_solv_1D(int n, double T0, double Tn, double tol) : T(n)
+    {
+        N_points = n;
+        T_start = T0;
+        T_end = Tn;
+        tolerance = tol;
+        T[0]=T0;
+        T[n-1]=Tn;
+    }
+
+    void solve (int maxIter){
+       
+        for (int iter=0; iter<maxIter; iter++)
+        {   
+            double maxdT = 0;
+            for (int i=1; i<N_points-1; i++)
+            {
+                double old_T=T[i];
+                T[i]=(T[i-1]+T[i+1])/2;
+                double dT=std::abs(old_T-T[i]);
+                if (dT >= maxdT)
+                {maxdT=dT;}
+            }
+
+            if (maxdT < tolerance)
+            {std::cout<< "converged" << std::endl; break;}
+        }
+    }
+
+    void print(){
+        for (int i=0; i<N_points; i++){
+            std::cout << T[i] << " ";
+        }
+    }
+
+};
+
+int main()
+{
+    th_solv_1D model1(11, 0, 100, 0.000001);
+    model1.solve(1000);
+    model1.print();
+}
