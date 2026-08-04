@@ -59,9 +59,19 @@ public:
 
 };
 
-int main()
+int main(int no_arg, char* values_arg[])
 {
-    th_solv_1D model1(11, 0, 100, 0.000001);
+    if (no_arg != 4)
+    {
+        std::cout << "wrong no of inputs" << std::endl;
+        return 1;
+    }
+
+    int n = std::stoi(values_arg[1]);
+    double T0 = std::stod(values_arg[2]);
+    double TN = std::stod(values_arg[3]);
+
+    th_solv_1D model1(n, T0, TN, 0.000001);
     model1.solve(1000);
     // model1.print();
     model1.writeToFile("solve_1d_res.csv");
