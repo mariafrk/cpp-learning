@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
+#include <fstream>
 
 class th_solv_1D {
 private: 
@@ -45,11 +46,23 @@ public:
         }
     }
 
+    void writeToFile(std::string fn)
+    {
+        std::ofstream outFile (fn);
+         outFile << "x, Temperature" << std::endl;
+        for (int i=0; i<N_points; i++)
+        {
+            outFile << i << "," << T[i] << std::endl;
+        }
+        
+    }
+
 };
 
 int main()
 {
     th_solv_1D model1(11, 0, 100, 0.000001);
     model1.solve(1000);
-    model1.print();
+    // model1.print();
+    model1.writeToFile("solve_1d_res.csv");
 }
